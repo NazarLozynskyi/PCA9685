@@ -1,0 +1,198 @@
+ARM GAS  /tmp/cc7671cY.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"my_main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.my_main_loop,"ax",%progbits
+  18              		.align	1
+  19              		.global	my_main_loop
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	my_main_loop:
+  27              	.LFB133:
+  28              		.file 1 "Src/my_main.c"
+   1:Src/my_main.c **** #include "my_main.h"
+   2:Src/my_main.c **** #include "uart.h"
+   3:Src/my_main.c **** #include "stdint.h"
+   4:Src/my_main.c **** #include "stdio.h"
+   5:Src/my_main.c **** #include "stdlib.h"
+   6:Src/my_main.c **** #include "i3_i2c_ext.h"
+   7:Src/my_main.c **** #include "stm32f3xx_hal.h"
+   8:Src/my_main.c **** #include "pca9685.h"
+   9:Src/my_main.c **** 
+  10:Src/my_main.c **** extern I2C_HandleTypeDef hi2c2;
+  11:Src/my_main.c ****  size_t i = 0;
+  12:Src/my_main.c **** 
+  13:Src/my_main.c **** void my_main_loop(void)
+  14:Src/my_main.c **** {
+  29              		.loc 1 14 1 view -0
+  30              		.cfi_startproc
+  31              		@ Volatile: function does not return.
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34 0000 08B5     		push	{r3, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 3, -8
+  38              		.cfi_offset 14, -4
+  15:Src/my_main.c ****     //char buff[50]={0};
+  16:Src/my_main.c ****     
+  17:Src/my_main.c ****     pca_init(0x40, 1000);
+  39              		.loc 1 17 5 view .LVU1
+  40 0002 4FF47A71 		mov	r1, #1000
+  41 0006 4020     		movs	r0, #64
+ARM GAS  /tmp/cc7671cY.s 			page 2
+
+
+  42 0008 FFF7FEFF 		bl	pca_init
+  43              	.LVL0:
+  18:Src/my_main.c ****     set_PWM (0x40, 1,0, 0);
+  44              		.loc 1 18 5 view .LVU2
+  45 000c 0023     		movs	r3, #0
+  46 000e 1A46     		mov	r2, r3
+  47 0010 0121     		movs	r1, #1
+  48 0012 4020     		movs	r0, #64
+  49 0014 FFF7FEFF 		bl	set_PWM
+  50              	.LVL1:
+  51 0018 0CE0     		b	.L2
+  52              	.L3:
+  19:Src/my_main.c ****    
+  20:Src/my_main.c ****     while(1)
+  21:Src/my_main.c ****     {
+  22:Src/my_main.c ****         
+  23:Src/my_main.c ****         for(; i < 4096; i+=20)
+  24:Src/my_main.c ****         {
+  25:Src/my_main.c ****             set_PWM (0x40, 1,0, i);
+  53              		.loc 1 25 13 discriminator 2 view .LVU3
+  54 001a 9BB2     		uxth	r3, r3
+  55 001c 0022     		movs	r2, #0
+  56 001e 0121     		movs	r1, #1
+  57 0020 4020     		movs	r0, #64
+  58 0022 FFF7FEFF 		bl	set_PWM
+  59              	.LVL2:
+  26:Src/my_main.c ****             HAL_Delay(5);
+  60              		.loc 1 26 13 discriminator 2 view .LVU4
+  61 0026 0520     		movs	r0, #5
+  62 0028 FFF7FEFF 		bl	HAL_Delay
+  63              	.LVL3:
+  23:Src/my_main.c ****         {
+  64              		.loc 1 23 25 discriminator 2 view .LVU5
+  23:Src/my_main.c ****         {
+  65              		.loc 1 23 26 is_stmt 0 discriminator 2 view .LVU6
+  66 002c 0D4A     		ldr	r2, .L8
+  67 002e 1368     		ldr	r3, [r2]
+  68 0030 1433     		adds	r3, r3, #20
+  69 0032 1360     		str	r3, [r2]
+  70              	.L2:
+  23:Src/my_main.c ****         {
+  71              		.loc 1 23 15 is_stmt 1 discriminator 1 view .LVU7
+  23:Src/my_main.c ****         {
+  72              		.loc 1 23 17 is_stmt 0 discriminator 1 view .LVU8
+  73 0034 0B4B     		ldr	r3, .L8
+  74 0036 1B68     		ldr	r3, [r3]
+  23:Src/my_main.c ****         {
+  75              		.loc 1 23 9 discriminator 1 view .LVU9
+  76 0038 B3F5805F 		cmp	r3, #4096
+  77 003c EDD3     		bcc	.L3
+  78              	.L4:
+  27:Src/my_main.c ****         }
+  28:Src/my_main.c ****                 
+  29:Src/my_main.c ****         for(; i > 0; i-=20)
+  79              		.loc 1 29 15 is_stmt 1 discriminator 1 view .LVU10
+  80              		.loc 1 29 17 is_stmt 0 discriminator 1 view .LVU11
+  81 003e 094B     		ldr	r3, .L8
+ARM GAS  /tmp/cc7671cY.s 			page 3
+
+
+  82 0040 1B68     		ldr	r3, [r3]
+  83              		.loc 1 29 9 discriminator 1 view .LVU12
+  84 0042 002B     		cmp	r3, #0
+  85 0044 F6D0     		beq	.L2
+  30:Src/my_main.c ****         {
+  31:Src/my_main.c ****         
+  32:Src/my_main.c ****             set_PWM (0x40, 1,0, i);
+  86              		.loc 1 32 13 is_stmt 1 discriminator 2 view .LVU13
+  87 0046 9BB2     		uxth	r3, r3
+  88 0048 0022     		movs	r2, #0
+  89 004a 0121     		movs	r1, #1
+  90 004c 4020     		movs	r0, #64
+  91 004e FFF7FEFF 		bl	set_PWM
+  92              	.LVL4:
+  33:Src/my_main.c ****             HAL_Delay(5);
+  93              		.loc 1 33 13 discriminator 2 view .LVU14
+  94 0052 0520     		movs	r0, #5
+  95 0054 FFF7FEFF 		bl	HAL_Delay
+  96              	.LVL5:
+  29:Src/my_main.c ****         {
+  97              		.loc 1 29 22 discriminator 2 view .LVU15
+  29:Src/my_main.c ****         {
+  98              		.loc 1 29 23 is_stmt 0 discriminator 2 view .LVU16
+  99 0058 024A     		ldr	r2, .L8
+ 100 005a 1368     		ldr	r3, [r2]
+ 101 005c 143B     		subs	r3, r3, #20
+ 102 005e 1360     		str	r3, [r2]
+ 103 0060 EDE7     		b	.L4
+ 104              	.L9:
+ 105 0062 00BF     		.align	2
+ 106              	.L8:
+ 107 0064 00000000 		.word	.LANCHOR0
+ 108              		.cfi_endproc
+ 109              	.LFE133:
+ 111              		.global	i
+ 112              		.section	.bss.i,"aw",%nobits
+ 113              		.align	2
+ 114              		.set	.LANCHOR0,. + 0
+ 117              	i:
+ 118 0000 00000000 		.space	4
+ 119              		.text
+ 120              	.Letext0:
+ 121              		.file 2 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 122              		.file 3 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 123              		.file 4 "/home/nazar/.gcc-arm-none-eabi/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 124              		.file 5 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/lock.h"
+ 125              		.file 6 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_types.h"
+ 126              		.file 7 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/reent.h"
+ 127              		.file 8 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/stdlib.h"
+ 128              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
+ 129              		.file 10 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 130              		.file 11 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 131              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 132              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 133              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h"
+ 134              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 135              		.file 16 "Inc/pca9685.h"
+ARM GAS  /tmp/cc7671cY.s 			page 4
+
+
+ARM GAS  /tmp/cc7671cY.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 my_main.c
+     /tmp/cc7671cY.s:18     .text.my_main_loop:0000000000000000 $t
+     /tmp/cc7671cY.s:26     .text.my_main_loop:0000000000000000 my_main_loop
+     /tmp/cc7671cY.s:107    .text.my_main_loop:0000000000000064 $d
+     /tmp/cc7671cY.s:117    .bss.i:0000000000000000 i
+     /tmp/cc7671cY.s:113    .bss.i:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+pca_init
+set_PWM
+HAL_Delay

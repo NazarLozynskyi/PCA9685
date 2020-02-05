@@ -1,0 +1,492 @@
+ARM GAS  /tmp/ccXD3WzD.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"uart.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.UART_print,"ax",%progbits
+  18              		.align	1
+  19              		.global	UART_print
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	UART_print:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Src/uart.c"
+   1:Src/uart.c    **** #include "uart.h"
+   2:Src/uart.c    **** #include <string.h>
+   3:Src/uart.c    **** #include "stm32f3xx_hal.h"
+   4:Src/uart.c    **** 
+   5:Src/uart.c    **** 
+   6:Src/uart.c    **** 
+   7:Src/uart.c    **** extern UART_HandleTypeDef huart2;
+   8:Src/uart.c    **** 
+   9:Src/uart.c    **** static char    println_buff[50] = {0};
+  10:Src/uart.c    **** static uint8_t byte_buff        = 0;
+  11:Src/uart.c    **** static volatile uint8_t uart_busy_flag = 0;
+  12:Src/uart.c    **** 
+  13:Src/uart.c    **** 
+  14:Src/uart.c    **** 
+  15:Src/uart.c    **** void UART_print(char msg[]) {
+  30              		.loc 1 15 29 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 15 29 is_stmt 0 view .LVU1
+  35 0000 10B5     		push	{r4, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 4, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0446     		mov	r4, r0
+  16:Src/uart.c    ****   while(HAL_UART_Transmit_IT(&huart2, (uint8_t*) msg, strlen(msg)) != HAL_OK);
+  41              		.loc 1 16 3 is_stmt 1 view .LVU2
+  42              	.LVL1:
+ARM GAS  /tmp/ccXD3WzD.s 			page 2
+
+
+  43              	.L2:
+  44              		.loc 1 16 78 discriminator 1 view .LVU3
+  45              		.loc 1 16 8 discriminator 1 view .LVU4
+  46              		.loc 1 16 55 is_stmt 0 discriminator 1 view .LVU5
+  47 0004 2046     		mov	r0, r4
+  48 0006 FFF7FEFF 		bl	strlen
+  49              	.LVL2:
+  50              		.loc 1 16 9 discriminator 1 view .LVU6
+  51 000a 82B2     		uxth	r2, r0
+  52 000c 2146     		mov	r1, r4
+  53 000e 0448     		ldr	r0, .L4
+  54 0010 FFF7FEFF 		bl	HAL_UART_Transmit_IT
+  55              	.LVL3:
+  56              		.loc 1 16 8 discriminator 1 view .LVU7
+  57 0014 0028     		cmp	r0, #0
+  58 0016 F5D1     		bne	.L2
+  17:Src/uart.c    ****   uart_busy_flag = 1;
+  59              		.loc 1 17 3 is_stmt 1 view .LVU8
+  60              		.loc 1 17 18 is_stmt 0 view .LVU9
+  61 0018 024B     		ldr	r3, .L4+4
+  62 001a 0122     		movs	r2, #1
+  63 001c 1A70     		strb	r2, [r3]
+  18:Src/uart.c    **** }
+  64              		.loc 1 18 1 view .LVU10
+  65 001e 10BD     		pop	{r4, pc}
+  66              	.LVL4:
+  67              	.L5:
+  68              		.loc 1 18 1 view .LVU11
+  69              		.align	2
+  70              	.L4:
+  71 0020 00000000 		.word	huart2
+  72 0024 00000000 		.word	.LANCHOR0
+  73              		.cfi_endproc
+  74              	.LFE130:
+  76              		.section	.rodata.UART_println.str1.4,"aMS",%progbits,1
+  77              		.align	2
+  78              	.LC0:
+  79 0000 0A00     		.ascii	"\012\000"
+  80              		.section	.text.UART_println,"ax",%progbits
+  81              		.align	1
+  82              		.global	UART_println
+  83              		.syntax unified
+  84              		.thumb
+  85              		.thumb_func
+  86              		.fpu fpv4-sp-d16
+  88              	UART_println:
+  89              	.LVL5:
+  90              	.LFB131:
+  19:Src/uart.c    **** 
+  20:Src/uart.c    **** void UART_println(char msg[]) {
+  91              		.loc 1 20 31 is_stmt 1 view -0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		.loc 1 20 31 is_stmt 0 view .LVU13
+  96 0000 10B5     		push	{r4, lr}
+  97              	.LCFI1:
+ARM GAS  /tmp/ccXD3WzD.s 			page 3
+
+
+  98              		.cfi_def_cfa_offset 8
+  99              		.cfi_offset 4, -8
+ 100              		.cfi_offset 14, -4
+ 101 0002 0146     		mov	r1, r0
+  21:Src/uart.c    ****   while(uart_busy_flag);
+ 102              		.loc 1 21 3 is_stmt 1 view .LVU14
+ 103              	.L7:
+ 104              		.loc 1 21 24 discriminator 1 view .LVU15
+ 105              		.loc 1 21 8 discriminator 1 view .LVU16
+ 106              		.loc 1 21 9 is_stmt 0 discriminator 1 view .LVU17
+ 107 0004 0E4B     		ldr	r3, .L10
+ 108 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 109              		.loc 1 21 8 discriminator 1 view .LVU18
+ 110 0008 002B     		cmp	r3, #0
+ 111 000a FBD1     		bne	.L7
+  22:Src/uart.c    ****   uart_busy_flag = 1;
+ 112              		.loc 1 22 3 is_stmt 1 view .LVU19
+ 113              		.loc 1 22 18 is_stmt 0 view .LVU20
+ 114 000c 0C4B     		ldr	r3, .L10
+ 115 000e 0122     		movs	r2, #1
+ 116 0010 1A70     		strb	r2, [r3]
+  23:Src/uart.c    ****   strcpy(println_buff, msg);
+ 117              		.loc 1 23 3 is_stmt 1 view .LVU21
+ 118 0012 0C4C     		ldr	r4, .L10+4
+ 119 0014 2046     		mov	r0, r4
+ 120              	.LVL6:
+ 121              		.loc 1 23 3 is_stmt 0 view .LVU22
+ 122 0016 FFF7FEFF 		bl	strcpy
+ 123              	.LVL7:
+  24:Src/uart.c    ****   strcat(println_buff, "\n");
+ 124              		.loc 1 24 3 is_stmt 1 view .LVU23
+ 125 001a 2046     		mov	r0, r4
+ 126 001c FFF7FEFF 		bl	strlen
+ 127              	.LVL8:
+ 128 0020 094B     		ldr	r3, .L10+8
+ 129 0022 1B88     		ldrh	r3, [r3]	@ unaligned
+ 130 0024 2352     		strh	r3, [r4, r0]	@ unaligned
+  25:Src/uart.c    ****   while(HAL_UART_Transmit_IT(&huart2, (uint8_t*) println_buff, strlen(println_buff)) != HAL_OK);
+ 131              		.loc 1 25 3 view .LVU24
+ 132              	.L8:
+ 133              		.loc 1 25 96 discriminator 1 view .LVU25
+ 134              		.loc 1 25 8 discriminator 1 view .LVU26
+ 135              		.loc 1 25 64 is_stmt 0 discriminator 1 view .LVU27
+ 136 0026 074C     		ldr	r4, .L10+4
+ 137 0028 2046     		mov	r0, r4
+ 138 002a FFF7FEFF 		bl	strlen
+ 139              	.LVL9:
+ 140              		.loc 1 25 9 discriminator 1 view .LVU28
+ 141 002e 82B2     		uxth	r2, r0
+ 142 0030 2146     		mov	r1, r4
+ 143 0032 0648     		ldr	r0, .L10+12
+ 144 0034 FFF7FEFF 		bl	HAL_UART_Transmit_IT
+ 145              	.LVL10:
+ 146              		.loc 1 25 8 discriminator 1 view .LVU29
+ 147 0038 0028     		cmp	r0, #0
+ 148 003a F4D1     		bne	.L8
+  26:Src/uart.c    **** }
+ARM GAS  /tmp/ccXD3WzD.s 			page 4
+
+
+ 149              		.loc 1 26 1 view .LVU30
+ 150 003c 10BD     		pop	{r4, pc}
+ 151              	.L11:
+ 152 003e 00BF     		.align	2
+ 153              	.L10:
+ 154 0040 00000000 		.word	.LANCHOR0
+ 155 0044 00000000 		.word	.LANCHOR1
+ 156 0048 00000000 		.word	.LC0
+ 157 004c 00000000 		.word	huart2
+ 158              		.cfi_endproc
+ 159              	.LFE131:
+ 161              		.section	.text.UART_start_receiving,"ax",%progbits
+ 162              		.align	1
+ 163              		.global	UART_start_receiving
+ 164              		.syntax unified
+ 165              		.thumb
+ 166              		.thumb_func
+ 167              		.fpu fpv4-sp-d16
+ 169              	UART_start_receiving:
+ 170              	.LFB132:
+  27:Src/uart.c    **** 
+  28:Src/uart.c    **** void UART_start_receiving() {
+ 171              		.loc 1 28 29 is_stmt 1 view -0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 0
+ 174              		@ frame_needed = 0, uses_anonymous_args = 0
+ 175 0000 08B5     		push	{r3, lr}
+ 176              	.LCFI2:
+ 177              		.cfi_def_cfa_offset 8
+ 178              		.cfi_offset 3, -8
+ 179              		.cfi_offset 14, -4
+ 180              	.L13:
+  29:Src/uart.c    ****   while(HAL_UART_Receive_IT(&huart2, &byte_buff, 1) != HAL_OK);
+ 181              		.loc 1 29 63 discriminator 1 view .LVU32
+ 182              		.loc 1 29 8 discriminator 1 view .LVU33
+ 183              		.loc 1 29 9 is_stmt 0 discriminator 1 view .LVU34
+ 184 0002 0122     		movs	r2, #1
+ 185 0004 0349     		ldr	r1, .L15
+ 186 0006 0448     		ldr	r0, .L15+4
+ 187 0008 FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 188              	.LVL11:
+ 189              		.loc 1 29 8 discriminator 1 view .LVU35
+ 190 000c 0028     		cmp	r0, #0
+ 191 000e F8D1     		bne	.L13
+  30:Src/uart.c    **** }
+ 192              		.loc 1 30 1 view .LVU36
+ 193 0010 08BD     		pop	{r3, pc}
+ 194              	.L16:
+ 195 0012 00BF     		.align	2
+ 196              	.L15:
+ 197 0014 00000000 		.word	.LANCHOR2
+ 198 0018 00000000 		.word	huart2
+ 199              		.cfi_endproc
+ 200              	.LFE132:
+ 202              		.section	.text.UART_TxEndCallback,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	UART_TxEndCallback
+ARM GAS  /tmp/ccXD3WzD.s 			page 5
+
+
+ 205              		.syntax unified
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.fpu fpv4-sp-d16
+ 210              	UART_TxEndCallback:
+ 211              	.LFB133:
+  31:Src/uart.c    **** 
+  32:Src/uart.c    **** 
+  33:Src/uart.c    **** void UART_TxEndCallback() {
+ 212              		.loc 1 33 27 is_stmt 1 view -0
+ 213              		.cfi_startproc
+ 214              		@ args = 0, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+  34:Src/uart.c    ****   uart_busy_flag = 0;
+ 217              		.loc 1 34 3 view .LVU38
+ 218              		.loc 1 34 18 is_stmt 0 view .LVU39
+ 219 0000 014B     		ldr	r3, .L18
+ 220 0002 0022     		movs	r2, #0
+ 221 0004 1A70     		strb	r2, [r3]
+  35:Src/uart.c    **** }
+ 222              		.loc 1 35 1 view .LVU40
+ 223 0006 7047     		bx	lr
+ 224              	.L19:
+ 225              		.align	2
+ 226              	.L18:
+ 227 0008 00000000 		.word	.LANCHOR0
+ 228              		.cfi_endproc
+ 229              	.LFE133:
+ 231              		.section	.text.UART_RxEndCallback,"ax",%progbits
+ 232              		.align	1
+ 233              		.global	UART_RxEndCallback
+ 234              		.syntax unified
+ 235              		.thumb
+ 236              		.thumb_func
+ 237              		.fpu fpv4-sp-d16
+ 239              	UART_RxEndCallback:
+ 240              	.LFB134:
+  36:Src/uart.c    **** 
+  37:Src/uart.c    **** void UART_RxEndCallback() {
+ 241              		.loc 1 37 27 is_stmt 1 view -0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 0
+ 244              		@ frame_needed = 0, uses_anonymous_args = 0
+ 245 0000 08B5     		push	{r3, lr}
+ 246              	.LCFI3:
+ 247              		.cfi_def_cfa_offset 8
+ 248              		.cfi_offset 3, -8
+ 249              		.cfi_offset 14, -4
+  38:Src/uart.c    ****   HAL_UART_Receive_IT(&huart2, &byte_buff, 1);
+ 250              		.loc 1 38 3 view .LVU42
+ 251 0002 0122     		movs	r2, #1
+ 252 0004 0249     		ldr	r1, .L22
+ 253 0006 0348     		ldr	r0, .L22+4
+ 254 0008 FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 255              	.LVL12:
+  39:Src/uart.c    **** }
+ARM GAS  /tmp/ccXD3WzD.s 			page 6
+
+
+ 256              		.loc 1 39 1 is_stmt 0 view .LVU43
+ 257 000c 08BD     		pop	{r3, pc}
+ 258              	.L23:
+ 259 000e 00BF     		.align	2
+ 260              	.L22:
+ 261 0010 00000000 		.word	.LANCHOR2
+ 262 0014 00000000 		.word	huart2
+ 263              		.cfi_endproc
+ 264              	.LFE134:
+ 266              		.section	.text.HAL_UART_TxCpltCallback,"ax",%progbits
+ 267              		.align	1
+ 268              		.global	HAL_UART_TxCpltCallback
+ 269              		.syntax unified
+ 270              		.thumb
+ 271              		.thumb_func
+ 272              		.fpu fpv4-sp-d16
+ 274              	HAL_UART_TxCpltCallback:
+ 275              	.LVL13:
+ 276              	.LFB135:
+  40:Src/uart.c    **** 
+  41:Src/uart.c    **** void HAL_UART_TxCpltCallback (UART_HandleTypeDef *huart) 
+  42:Src/uart.c    **** {
+ 277              		.loc 1 42 1 is_stmt 1 view -0
+ 278              		.cfi_startproc
+ 279              		@ args = 0, pretend = 0, frame = 0
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281              		.loc 1 42 1 is_stmt 0 view .LVU45
+ 282 0000 08B5     		push	{r3, lr}
+ 283              	.LCFI4:
+ 284              		.cfi_def_cfa_offset 8
+ 285              		.cfi_offset 3, -8
+ 286              		.cfi_offset 14, -4
+  43:Src/uart.c    ****   if      (huart->Instance == USART2) UART_TxEndCallback();
+ 287              		.loc 1 43 3 is_stmt 1 view .LVU46
+ 288              		.loc 1 43 17 is_stmt 0 view .LVU47
+ 289 0002 0268     		ldr	r2, [r0]
+ 290              		.loc 1 43 11 view .LVU48
+ 291 0004 034B     		ldr	r3, .L28
+ 292 0006 9A42     		cmp	r2, r3
+ 293 0008 00D0     		beq	.L27
+ 294              	.LVL14:
+ 295              	.L24:
+  44:Src/uart.c    **** }
+ 296              		.loc 1 44 1 view .LVU49
+ 297 000a 08BD     		pop	{r3, pc}
+ 298              	.LVL15:
+ 299              	.L27:
+  43:Src/uart.c    ****   if      (huart->Instance == USART2) UART_TxEndCallback();
+ 300              		.loc 1 43 39 is_stmt 1 discriminator 1 view .LVU50
+ 301 000c FFF7FEFF 		bl	UART_TxEndCallback
+ 302              	.LVL16:
+ 303              		.loc 1 44 1 is_stmt 0 discriminator 1 view .LVU51
+ 304 0010 FBE7     		b	.L24
+ 305              	.L29:
+ 306 0012 00BF     		.align	2
+ 307              	.L28:
+ 308 0014 00440040 		.word	1073759232
+ARM GAS  /tmp/ccXD3WzD.s 			page 7
+
+
+ 309              		.cfi_endproc
+ 310              	.LFE135:
+ 312              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
+ 313              		.align	1
+ 314              		.global	HAL_UART_RxCpltCallback
+ 315              		.syntax unified
+ 316              		.thumb
+ 317              		.thumb_func
+ 318              		.fpu fpv4-sp-d16
+ 320              	HAL_UART_RxCpltCallback:
+ 321              	.LVL17:
+ 322              	.LFB136:
+  45:Src/uart.c    **** 
+  46:Src/uart.c    **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) 
+  47:Src/uart.c    **** {
+ 323              		.loc 1 47 1 is_stmt 1 view -0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 0
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327              		.loc 1 47 1 is_stmt 0 view .LVU53
+ 328 0000 08B5     		push	{r3, lr}
+ 329              	.LCFI5:
+ 330              		.cfi_def_cfa_offset 8
+ 331              		.cfi_offset 3, -8
+ 332              		.cfi_offset 14, -4
+  48:Src/uart.c    ****   if      (huart->Instance == USART2) UART_RxEndCallback();
+ 333              		.loc 1 48 3 is_stmt 1 view .LVU54
+ 334              		.loc 1 48 17 is_stmt 0 view .LVU55
+ 335 0002 0268     		ldr	r2, [r0]
+ 336              		.loc 1 48 11 view .LVU56
+ 337 0004 034B     		ldr	r3, .L34
+ 338 0006 9A42     		cmp	r2, r3
+ 339 0008 00D0     		beq	.L33
+ 340              	.LVL18:
+ 341              	.L30:
+  49:Src/uart.c    **** }
+ 342              		.loc 1 49 1 view .LVU57
+ 343 000a 08BD     		pop	{r3, pc}
+ 344              	.LVL19:
+ 345              	.L33:
+  48:Src/uart.c    ****   if      (huart->Instance == USART2) UART_RxEndCallback();
+ 346              		.loc 1 48 39 is_stmt 1 discriminator 1 view .LVU58
+ 347 000c FFF7FEFF 		bl	UART_RxEndCallback
+ 348              	.LVL20:
+ 349              		.loc 1 49 1 is_stmt 0 discriminator 1 view .LVU59
+ 350 0010 FBE7     		b	.L30
+ 351              	.L35:
+ 352 0012 00BF     		.align	2
+ 353              	.L34:
+ 354 0014 00440040 		.word	1073759232
+ 355              		.cfi_endproc
+ 356              	.LFE136:
+ 358              		.section	.bss.byte_buff,"aw",%nobits
+ 359              		.set	.LANCHOR2,. + 0
+ 362              	byte_buff:
+ 363 0000 00       		.space	1
+ 364              		.section	.bss.println_buff,"aw",%nobits
+ARM GAS  /tmp/ccXD3WzD.s 			page 8
+
+
+ 365              		.align	2
+ 366              		.set	.LANCHOR1,. + 0
+ 369              	println_buff:
+ 370 0000 00000000 		.space	50
+ 370      00000000 
+ 370      00000000 
+ 370      00000000 
+ 370      00000000 
+ 371              		.section	.bss.uart_busy_flag,"aw",%nobits
+ 372              		.set	.LANCHOR0,. + 0
+ 375              	uart_busy_flag:
+ 376 0000 00       		.space	1
+ 377              		.text
+ 378              	.Letext0:
+ 379              		.file 2 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 380              		.file 3 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/lock.h"
+ 381              		.file 4 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_types.h"
+ 382              		.file 5 "/home/nazar/.gcc-arm-none-eabi/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 383              		.file 6 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/reent.h"
+ 384              		.file 7 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 385              		.file 8 "Drivers/CMSIS/Include/core_cm4.h"
+ 386              		.file 9 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 387              		.file 10 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 388              		.file 11 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 389              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ 390              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h"
+ 391              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ 392              		.file 15 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/string.h"
+ 393              		.file 16 "<built-in>"
+ARM GAS  /tmp/ccXD3WzD.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+     /tmp/ccXD3WzD.s:18     .text.UART_print:0000000000000000 $t
+     /tmp/ccXD3WzD.s:26     .text.UART_print:0000000000000000 UART_print
+     /tmp/ccXD3WzD.s:71     .text.UART_print:0000000000000020 $d
+     /tmp/ccXD3WzD.s:77     .rodata.UART_println.str1.4:0000000000000000 $d
+     /tmp/ccXD3WzD.s:81     .text.UART_println:0000000000000000 $t
+     /tmp/ccXD3WzD.s:88     .text.UART_println:0000000000000000 UART_println
+     /tmp/ccXD3WzD.s:154    .text.UART_println:0000000000000040 $d
+     /tmp/ccXD3WzD.s:162    .text.UART_start_receiving:0000000000000000 $t
+     /tmp/ccXD3WzD.s:169    .text.UART_start_receiving:0000000000000000 UART_start_receiving
+     /tmp/ccXD3WzD.s:197    .text.UART_start_receiving:0000000000000014 $d
+     /tmp/ccXD3WzD.s:203    .text.UART_TxEndCallback:0000000000000000 $t
+     /tmp/ccXD3WzD.s:210    .text.UART_TxEndCallback:0000000000000000 UART_TxEndCallback
+     /tmp/ccXD3WzD.s:227    .text.UART_TxEndCallback:0000000000000008 $d
+     /tmp/ccXD3WzD.s:232    .text.UART_RxEndCallback:0000000000000000 $t
+     /tmp/ccXD3WzD.s:239    .text.UART_RxEndCallback:0000000000000000 UART_RxEndCallback
+     /tmp/ccXD3WzD.s:261    .text.UART_RxEndCallback:0000000000000010 $d
+     /tmp/ccXD3WzD.s:267    .text.HAL_UART_TxCpltCallback:0000000000000000 $t
+     /tmp/ccXD3WzD.s:274    .text.HAL_UART_TxCpltCallback:0000000000000000 HAL_UART_TxCpltCallback
+     /tmp/ccXD3WzD.s:308    .text.HAL_UART_TxCpltCallback:0000000000000014 $d
+     /tmp/ccXD3WzD.s:313    .text.HAL_UART_RxCpltCallback:0000000000000000 $t
+     /tmp/ccXD3WzD.s:320    .text.HAL_UART_RxCpltCallback:0000000000000000 HAL_UART_RxCpltCallback
+     /tmp/ccXD3WzD.s:354    .text.HAL_UART_RxCpltCallback:0000000000000014 $d
+     /tmp/ccXD3WzD.s:362    .bss.byte_buff:0000000000000000 byte_buff
+     /tmp/ccXD3WzD.s:363    .bss.byte_buff:0000000000000000 $d
+     /tmp/ccXD3WzD.s:365    .bss.println_buff:0000000000000000 $d
+     /tmp/ccXD3WzD.s:369    .bss.println_buff:0000000000000000 println_buff
+     /tmp/ccXD3WzD.s:375    .bss.uart_busy_flag:0000000000000000 uart_busy_flag
+     /tmp/ccXD3WzD.s:376    .bss.uart_busy_flag:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+strlen
+HAL_UART_Transmit_IT
+huart2
+strcpy
+HAL_UART_Receive_IT

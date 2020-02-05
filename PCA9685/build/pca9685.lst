@@ -1,0 +1,348 @@
+ARM GAS  /tmp/ccsDKg9k.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"pca9685.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.pcaByteWrite,"ax",%progbits
+  18              		.align	1
+  19              		.global	pcaByteWrite
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	pcaByteWrite:
+  27              	.LVL0:
+  28              	.LFB3:
+  29              		.file 1 "Src/pca9685.c"
+   1:Src/pca9685.c **** #include "pca9685.h"
+   2:Src/pca9685.c **** #include "i3_i2c_ext.h"
+   3:Src/pca9685.c **** #include "stdint.h"
+   4:Src/pca9685.c **** 
+   5:Src/pca9685.c **** uint8_t pca_init(uint8_t addr, uint16_t freq)
+   6:Src/pca9685.c **** {
+   7:Src/pca9685.c ****     uint8_t prescale = 25000000/4096/freq;
+   8:Src/pca9685.c ****     
+   9:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE2, PCA9685_OUTDRV);
+  10:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE1, PCA9685_SLEEP);
+  11:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_PRESCALE, prescale);
+  12:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE1, PCA9685_ALLCALL|PCA9685_RESTART);
+  13:Src/pca9685.c ****     return 0;
+  14:Src/pca9685.c **** }
+  15:Src/pca9685.c **** 
+  16:Src/pca9685.c **** uint8_t set_PWM (uint8_t addr, uint8_t channel,uint16_t on, uint16_t off)
+  17:Src/pca9685.c **** {
+  18:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_L+4*channel,  on  & 0xFF);
+  19:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_H+4*channel,  on  >> 8);
+  20:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_OFF_L+4*channel, off & 0xFF);
+  21:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_OFF_H+4*channel, off >> 8);
+  22:Src/pca9685.c ****     
+  23:Src/pca9685.c **** 
+  24:Src/pca9685.c ****     return 0;
+  25:Src/pca9685.c **** }
+  26:Src/pca9685.c **** 
+  27:Src/pca9685.c **** void PWM_off(uint8_t addr)
+  28:Src/pca9685.c **** {
+  29:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_ON_L, 0x00);
+ARM GAS  /tmp/ccsDKg9k.s 			page 2
+
+
+  30:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_ON_H, 0x00);
+  31:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_OFF_L, 0x00);
+  32:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_OFF_H, 0x00);
+  33:Src/pca9685.c **** }
+  34:Src/pca9685.c **** void pcaByteWrite(uint8_t addr, uint8_t reg, uint8_t data)
+  35:Src/pca9685.c **** {
+  30              		.loc 1 35 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 35 1 is_stmt 0 view .LVU1
+  35 0000 00B5     		push	{lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 4
+  38              		.cfi_offset 14, -4
+  39 0002 85B0     		sub	sp, sp, #20
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 24
+  42 0004 8DF80F20 		strb	r2, [sp, #15]
+  36:Src/pca9685.c ****     I2C_Ext_Mem_Write(addr, reg, 1,&data, 1);
+  43              		.loc 1 36 5 is_stmt 1 view .LVU2
+  44 0008 0122     		movs	r2, #1
+  45              	.LVL1:
+  46              		.loc 1 36 5 is_stmt 0 view .LVU3
+  47 000a 0092     		str	r2, [sp]
+  48 000c 0DF10F03 		add	r3, sp, #15
+  49              	.LVL2:
+  50              		.loc 1 36 5 view .LVU4
+  51 0010 FFF7FEFF 		bl	I2C_Ext_Mem_Write
+  52              	.LVL3:
+  37:Src/pca9685.c **** }
+  53              		.loc 1 37 1 view .LVU5
+  54 0014 05B0     		add	sp, sp, #20
+  55              	.LCFI2:
+  56              		.cfi_def_cfa_offset 4
+  57              		@ sp needed
+  58 0016 5DF804FB 		ldr	pc, [sp], #4
+  59              		.cfi_endproc
+  60              	.LFE3:
+  62              		.section	.text.pca_init,"ax",%progbits
+  63              		.align	1
+  64              		.global	pca_init
+  65              		.syntax unified
+  66              		.thumb
+  67              		.thumb_func
+  68              		.fpu fpv4-sp-d16
+  70              	pca_init:
+  71              	.LVL4:
+  72              	.LFB0:
+   6:Src/pca9685.c ****     uint8_t prescale = 25000000/4096/freq;
+  73              		.loc 1 6 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+   6:Src/pca9685.c ****     uint8_t prescale = 25000000/4096/freq;
+  77              		.loc 1 6 1 is_stmt 0 view .LVU7
+  78 0000 38B5     		push	{r3, r4, r5, lr}
+ARM GAS  /tmp/ccsDKg9k.s 			page 3
+
+
+  79              	.LCFI3:
+  80              		.cfi_def_cfa_offset 16
+  81              		.cfi_offset 3, -16
+  82              		.cfi_offset 4, -12
+  83              		.cfi_offset 5, -8
+  84              		.cfi_offset 14, -4
+  85 0002 0446     		mov	r4, r0
+   7:Src/pca9685.c ****     
+  86              		.loc 1 7 5 is_stmt 1 view .LVU8
+   7:Src/pca9685.c ****     
+  87              		.loc 1 7 37 is_stmt 0 view .LVU9
+  88 0004 41F2D775 		movw	r5, #6103
+  89 0008 95FBF1F5 		sdiv	r5, r5, r1
+   7:Src/pca9685.c ****     
+  90              		.loc 1 7 13 view .LVU10
+  91 000c EDB2     		uxtb	r5, r5
+  92              	.LVL5:
+   9:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE1, PCA9685_SLEEP);
+  93              		.loc 1 9 5 is_stmt 1 view .LVU11
+  94 000e 0422     		movs	r2, #4
+  95 0010 0121     		movs	r1, #1
+  96              	.LVL6:
+   9:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE1, PCA9685_SLEEP);
+  97              		.loc 1 9 5 is_stmt 0 view .LVU12
+  98 0012 FFF7FEFF 		bl	pcaByteWrite
+  99              	.LVL7:
+  10:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_PRESCALE, prescale);
+ 100              		.loc 1 10 5 is_stmt 1 view .LVU13
+ 101 0016 1022     		movs	r2, #16
+ 102 0018 0021     		movs	r1, #0
+ 103 001a 2046     		mov	r0, r4
+ 104 001c FFF7FEFF 		bl	pcaByteWrite
+ 105              	.LVL8:
+  11:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_MODE1, PCA9685_ALLCALL|PCA9685_RESTART);
+ 106              		.loc 1 11 5 view .LVU14
+ 107 0020 2A46     		mov	r2, r5
+ 108 0022 FE21     		movs	r1, #254
+ 109 0024 2046     		mov	r0, r4
+ 110 0026 FFF7FEFF 		bl	pcaByteWrite
+ 111              	.LVL9:
+  12:Src/pca9685.c ****     return 0;
+ 112              		.loc 1 12 5 view .LVU15
+ 113 002a 8122     		movs	r2, #129
+ 114 002c 0021     		movs	r1, #0
+ 115 002e 2046     		mov	r0, r4
+ 116 0030 FFF7FEFF 		bl	pcaByteWrite
+ 117              	.LVL10:
+  13:Src/pca9685.c **** }
+ 118              		.loc 1 13 5 view .LVU16
+  14:Src/pca9685.c **** 
+ 119              		.loc 1 14 1 is_stmt 0 view .LVU17
+ 120 0034 0020     		movs	r0, #0
+ 121 0036 38BD     		pop	{r3, r4, r5, pc}
+  14:Src/pca9685.c **** 
+ 122              		.loc 1 14 1 view .LVU18
+ 123              		.cfi_endproc
+ 124              	.LFE0:
+ARM GAS  /tmp/ccsDKg9k.s 			page 4
+
+
+ 126              		.section	.text.set_PWM,"ax",%progbits
+ 127              		.align	1
+ 128              		.global	set_PWM
+ 129              		.syntax unified
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.fpu fpv4-sp-d16
+ 134              	set_PWM:
+ 135              	.LVL11:
+ 136              	.LFB1:
+  17:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_L+4*channel,  on  & 0xFF);
+ 137              		.loc 1 17 1 is_stmt 1 view -0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 0
+ 140              		@ frame_needed = 0, uses_anonymous_args = 0
+  17:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_L+4*channel,  on  & 0xFF);
+ 141              		.loc 1 17 1 is_stmt 0 view .LVU20
+ 142 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 143              	.LCFI4:
+ 144              		.cfi_def_cfa_offset 24
+ 145              		.cfi_offset 4, -24
+ 146              		.cfi_offset 5, -20
+ 147              		.cfi_offset 6, -16
+ 148              		.cfi_offset 7, -12
+ 149              		.cfi_offset 8, -8
+ 150              		.cfi_offset 14, -4
+ 151 0004 0646     		mov	r6, r0
+ 152 0006 0C46     		mov	r4, r1
+ 153 0008 9046     		mov	r8, r2
+ 154 000a 1F46     		mov	r7, r3
+  18:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_H+4*channel,  on  >> 8);
+ 155              		.loc 1 18 5 is_stmt 1 view .LVU21
+ 156 000c 8D00     		lsls	r5, r1, #2
+ 157 000e EDB2     		uxtb	r5, r5
+ 158 0010 A91D     		adds	r1, r5, #6
+ 159              	.LVL12:
+  18:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_H+4*channel,  on  >> 8);
+ 160              		.loc 1 18 5 is_stmt 0 view .LVU22
+ 161 0012 D2B2     		uxtb	r2, r2
+ 162              	.LVL13:
+  18:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_ON_H+4*channel,  on  >> 8);
+ 163              		.loc 1 18 5 view .LVU23
+ 164 0014 01F0FE01 		and	r1, r1, #254
+ 165 0018 FFF7FEFF 		bl	pcaByteWrite
+ 166              	.LVL14:
+  19:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_OFF_L+4*channel, off & 0xFF);
+ 167              		.loc 1 19 5 is_stmt 1 view .LVU24
+ 168 001c E91D     		adds	r1, r5, #7
+ 169 001e 4FEA1822 		lsr	r2, r8, #8
+ 170 0022 C9B2     		uxtb	r1, r1
+ 171 0024 3046     		mov	r0, r6
+ 172 0026 FFF7FEFF 		bl	pcaByteWrite
+ 173              	.LVL15:
+  20:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_LED0_OFF_H+4*channel, off >> 8);
+ 174              		.loc 1 20 5 view .LVU25
+ 175 002a A11C     		adds	r1, r4, #2
+ 176 002c 8900     		lsls	r1, r1, #2
+ARM GAS  /tmp/ccsDKg9k.s 			page 5
+
+
+ 177 002e FAB2     		uxtb	r2, r7
+ 178 0030 01F0FC01 		and	r1, r1, #252
+ 179 0034 3046     		mov	r0, r6
+ 180 0036 FFF7FEFF 		bl	pcaByteWrite
+ 181              	.LVL16:
+  21:Src/pca9685.c ****     
+ 182              		.loc 1 21 5 view .LVU26
+ 183 003a 05F10901 		add	r1, r5, #9
+ 184 003e 3A0A     		lsrs	r2, r7, #8
+ 185 0040 C9B2     		uxtb	r1, r1
+ 186 0042 3046     		mov	r0, r6
+ 187 0044 FFF7FEFF 		bl	pcaByteWrite
+ 188              	.LVL17:
+  24:Src/pca9685.c **** }
+ 189              		.loc 1 24 5 view .LVU27
+  25:Src/pca9685.c **** 
+ 190              		.loc 1 25 1 is_stmt 0 view .LVU28
+ 191 0048 0020     		movs	r0, #0
+ 192 004a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 193              		.cfi_endproc
+ 194              	.LFE1:
+ 196              		.section	.text.PWM_off,"ax",%progbits
+ 197              		.align	1
+ 198              		.global	PWM_off
+ 199              		.syntax unified
+ 200              		.thumb
+ 201              		.thumb_func
+ 202              		.fpu fpv4-sp-d16
+ 204              	PWM_off:
+ 205              	.LVL18:
+ 206              	.LFB2:
+  28:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_ON_L, 0x00);
+ 207              		.loc 1 28 1 is_stmt 1 view -0
+ 208              		.cfi_startproc
+ 209              		@ args = 0, pretend = 0, frame = 0
+ 210              		@ frame_needed = 0, uses_anonymous_args = 0
+  28:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_ON_L, 0x00);
+ 211              		.loc 1 28 1 is_stmt 0 view .LVU30
+ 212 0000 10B5     		push	{r4, lr}
+ 213              	.LCFI5:
+ 214              		.cfi_def_cfa_offset 8
+ 215              		.cfi_offset 4, -8
+ 216              		.cfi_offset 14, -4
+ 217 0002 0446     		mov	r4, r0
+  29:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_ON_H, 0x00);
+ 218              		.loc 1 29 5 is_stmt 1 view .LVU31
+ 219 0004 0022     		movs	r2, #0
+ 220 0006 FA21     		movs	r1, #250
+ 221 0008 FFF7FEFF 		bl	pcaByteWrite
+ 222              	.LVL19:
+  30:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_OFF_L, 0x00);
+ 223              		.loc 1 30 5 view .LVU32
+ 224 000c 0022     		movs	r2, #0
+ 225 000e FB21     		movs	r1, #251
+ 226 0010 2046     		mov	r0, r4
+ 227 0012 FFF7FEFF 		bl	pcaByteWrite
+ 228              	.LVL20:
+ARM GAS  /tmp/ccsDKg9k.s 			page 6
+
+
+  31:Src/pca9685.c ****     pcaByteWrite(addr, PCA9685_ALL_LED_OFF_H, 0x00);
+ 229              		.loc 1 31 5 view .LVU33
+ 230 0016 0022     		movs	r2, #0
+ 231 0018 FC21     		movs	r1, #252
+ 232 001a 2046     		mov	r0, r4
+ 233 001c FFF7FEFF 		bl	pcaByteWrite
+ 234              	.LVL21:
+  32:Src/pca9685.c **** }
+ 235              		.loc 1 32 5 view .LVU34
+ 236 0020 0022     		movs	r2, #0
+ 237 0022 FD21     		movs	r1, #253
+ 238 0024 2046     		mov	r0, r4
+ 239 0026 FFF7FEFF 		bl	pcaByteWrite
+ 240              	.LVL22:
+  33:Src/pca9685.c **** void pcaByteWrite(uint8_t addr, uint8_t reg, uint8_t data)
+ 241              		.loc 1 33 1 is_stmt 0 view .LVU35
+ 242 002a 10BD     		pop	{r4, pc}
+ 243              		.cfi_endproc
+ 244              	.LFE2:
+ 246              		.text
+ 247              	.Letext0:
+ 248              		.file 2 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 249              		.file 3 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 250              		.file 4 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/lock.h"
+ 251              		.file 5 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_types.h"
+ 252              		.file 6 "/home/nazar/.gcc-arm-none-eabi/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 253              		.file 7 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/reent.h"
+ 254              		.file 8 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/stdlib.h"
+ 255              		.file 9 "Inc/i3_i2c_ext.h"
+ARM GAS  /tmp/ccsDKg9k.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pca9685.c
+     /tmp/ccsDKg9k.s:18     .text.pcaByteWrite:0000000000000000 $t
+     /tmp/ccsDKg9k.s:26     .text.pcaByteWrite:0000000000000000 pcaByteWrite
+     /tmp/ccsDKg9k.s:63     .text.pca_init:0000000000000000 $t
+     /tmp/ccsDKg9k.s:70     .text.pca_init:0000000000000000 pca_init
+     /tmp/ccsDKg9k.s:127    .text.set_PWM:0000000000000000 $t
+     /tmp/ccsDKg9k.s:134    .text.set_PWM:0000000000000000 set_PWM
+     /tmp/ccsDKg9k.s:197    .text.PWM_off:0000000000000000 $t
+     /tmp/ccsDKg9k.s:204    .text.PWM_off:0000000000000000 PWM_off
+
+UNDEFINED SYMBOLS
+I2C_Ext_Mem_Write

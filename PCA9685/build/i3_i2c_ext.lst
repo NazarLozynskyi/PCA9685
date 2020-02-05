@@ -1,0 +1,655 @@
+ARM GAS  /tmp/ccW8UXEA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"i3_i2c_ext.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.I3_I2C_Ext_Check,"ax",%progbits
+  18              		.align	1
+  19              		.global	I3_I2C_Ext_Check
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	I3_I2C_Ext_Check:
+  27              	.LVL0:
+  28              	.LFB130:
+  29              		.file 1 "Src/i3_i2c_ext.c"
+   1:Src/i3_i2c_ext.c **** #include "i3_i2c_ext.h"
+   2:Src/i3_i2c_ext.c **** 
+   3:Src/i3_i2c_ext.c **** #include "stm32f3xx_hal.h"
+   4:Src/i3_i2c_ext.c **** 
+   5:Src/i3_i2c_ext.c **** 
+   6:Src/i3_i2c_ext.c **** extern I2C_HandleTypeDef hi2c2;
+   7:Src/i3_i2c_ext.c **** extern void Error_Handler(void);
+   8:Src/i3_i2c_ext.c **** 
+   9:Src/i3_i2c_ext.c **** 
+  10:Src/i3_i2c_ext.c **** static volatile uint8_t i2c_busy = 0;
+  11:Src/i3_i2c_ext.c **** static volatile uint8_t i2c_received = 0;
+  12:Src/i3_i2c_ext.c **** 
+  13:Src/i3_i2c_ext.c **** uint8_t I3_I2C_Ext_Check(uint8_t addr) {
+  30              		.loc 1 13 40 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 13 40 is_stmt 0 view .LVU1
+  35 0000 08B5     		push	{r3, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 3, -8
+  39              		.cfi_offset 14, -4
+  14:Src/i3_i2c_ext.c ****   return HAL_I2C_IsDeviceReady(&hi2c2, addr<<1, 10, 10) == HAL_OK;
+  40              		.loc 1 14 3 is_stmt 1 view .LVU2
+  41              		.loc 1 14 10 is_stmt 0 view .LVU3
+  42 0002 0A23     		movs	r3, #10
+  43 0004 1A46     		mov	r2, r3
+  44 0006 4100     		lsls	r1, r0, #1
+ARM GAS  /tmp/ccW8UXEA.s 			page 2
+
+
+  45 0008 0348     		ldr	r0, .L3
+  46              	.LVL1:
+  47              		.loc 1 14 10 view .LVU4
+  48 000a FFF7FEFF 		bl	HAL_I2C_IsDeviceReady
+  49              	.LVL2:
+  15:Src/i3_i2c_ext.c **** }
+  50              		.loc 1 15 1 view .LVU5
+  51 000e B0FA80F0 		clz	r0, r0
+  52 0012 4009     		lsrs	r0, r0, #5
+  53 0014 08BD     		pop	{r3, pc}
+  54              	.L4:
+  55 0016 00BF     		.align	2
+  56              	.L3:
+  57 0018 00000000 		.word	hi2c2
+  58              		.cfi_endproc
+  59              	.LFE130:
+  61              		.section	.text.I3_I2C_Ext_Busy,"ax",%progbits
+  62              		.align	1
+  63              		.global	I3_I2C_Ext_Busy
+  64              		.syntax unified
+  65              		.thumb
+  66              		.thumb_func
+  67              		.fpu fpv4-sp-d16
+  69              	I3_I2C_Ext_Busy:
+  70              	.LFB131:
+  16:Src/i3_i2c_ext.c **** 
+  17:Src/i3_i2c_ext.c **** uint8_t I3_I2C_Ext_Busy() {
+  71              		.loc 1 17 27 is_stmt 1 view -0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 0
+  74              		@ frame_needed = 0, uses_anonymous_args = 0
+  75              		@ link register save eliminated.
+  18:Src/i3_i2c_ext.c ****   return i2c_busy;
+  76              		.loc 1 18 3 view .LVU7
+  77              		.loc 1 18 10 is_stmt 0 view .LVU8
+  78 0000 014B     		ldr	r3, .L6
+  79 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  19:Src/i3_i2c_ext.c **** }
+  80              		.loc 1 19 1 view .LVU9
+  81 0004 7047     		bx	lr
+  82              	.L7:
+  83 0006 00BF     		.align	2
+  84              	.L6:
+  85 0008 00000000 		.word	.LANCHOR0
+  86              		.cfi_endproc
+  87              	.LFE131:
+  89              		.section	.text.I3_I2C_Ext_Read,"ax",%progbits
+  90              		.align	1
+  91              		.global	I3_I2C_Ext_Read
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  95              		.fpu fpv4-sp-d16
+  97              	I3_I2C_Ext_Read:
+  98              	.LVL3:
+  99              	.LFB132:
+  20:Src/i3_i2c_ext.c **** 
+ARM GAS  /tmp/ccW8UXEA.s 			page 3
+
+
+  21:Src/i3_i2c_ext.c **** void I3_I2C_Ext_Read(uint8_t addr, uint8_t* buff, size_t size) {
+ 100              		.loc 1 21 64 is_stmt 1 view -0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 0
+ 103              		@ frame_needed = 0, uses_anonymous_args = 0
+ 104              		.loc 1 21 64 is_stmt 0 view .LVU11
+ 105 0000 10B5     		push	{r4, lr}
+ 106              	.LCFI1:
+ 107              		.cfi_def_cfa_offset 8
+ 108              		.cfi_offset 4, -8
+ 109              		.cfi_offset 14, -4
+  22:Src/i3_i2c_ext.c ****   i2c_busy = 1;
+ 110              		.loc 1 22 3 is_stmt 1 view .LVU12
+ 111              		.loc 1 22 12 is_stmt 0 view .LVU13
+ 112 0002 094B     		ldr	r3, .L11
+ 113 0004 0124     		movs	r4, #1
+ 114 0006 1C70     		strb	r4, [r3]
+  23:Src/i3_i2c_ext.c ****   HAL_I2C_Master_Receive_IT(&hi2c2, (uint16_t)addr<<1, buff, size);
+ 115              		.loc 1 23 3 is_stmt 1 view .LVU14
+ 116 0008 93B2     		uxth	r3, r2
+ 117 000a 0A46     		mov	r2, r1
+ 118              	.LVL4:
+ 119              		.loc 1 23 3 is_stmt 0 view .LVU15
+ 120 000c 00FA04F1 		lsl	r1, r0, r4
+ 121              	.LVL5:
+ 122              		.loc 1 23 3 view .LVU16
+ 123 0010 0648     		ldr	r0, .L11+4
+ 124              	.LVL6:
+ 125              		.loc 1 23 3 view .LVU17
+ 126 0012 FFF7FEFF 		bl	HAL_I2C_Master_Receive_IT
+ 127              	.LVL7:
+  24:Src/i3_i2c_ext.c ****   while (! i2c_received);
+ 128              		.loc 1 24 3 is_stmt 1 view .LVU18
+ 129              	.L9:
+ 130              		.loc 1 24 25 discriminator 1 view .LVU19
+ 131              		.loc 1 24 9 discriminator 1 view .LVU20
+ 132              		.loc 1 24 10 is_stmt 0 discriminator 1 view .LVU21
+ 133 0016 064B     		ldr	r3, .L11+8
+ 134 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 135              		.loc 1 24 9 discriminator 1 view .LVU22
+ 136 001a 002B     		cmp	r3, #0
+ 137 001c FBD0     		beq	.L9
+  25:Src/i3_i2c_ext.c ****   i2c_received = 0;
+ 138              		.loc 1 25 3 is_stmt 1 view .LVU23
+ 139              		.loc 1 25 16 is_stmt 0 view .LVU24
+ 140 001e 044B     		ldr	r3, .L11+8
+ 141 0020 0022     		movs	r2, #0
+ 142 0022 1A70     		strb	r2, [r3]
+  26:Src/i3_i2c_ext.c **** }
+ 143              		.loc 1 26 1 view .LVU25
+ 144 0024 10BD     		pop	{r4, pc}
+ 145              	.L12:
+ 146 0026 00BF     		.align	2
+ 147              	.L11:
+ 148 0028 00000000 		.word	.LANCHOR0
+ 149 002c 00000000 		.word	hi2c2
+ 150 0030 00000000 		.word	.LANCHOR1
+ARM GAS  /tmp/ccW8UXEA.s 			page 4
+
+
+ 151              		.cfi_endproc
+ 152              	.LFE132:
+ 154              		.section	.text.I3_I2C_Ext_Write,"ax",%progbits
+ 155              		.align	1
+ 156              		.global	I3_I2C_Ext_Write
+ 157              		.syntax unified
+ 158              		.thumb
+ 159              		.thumb_func
+ 160              		.fpu fpv4-sp-d16
+ 162              	I3_I2C_Ext_Write:
+ 163              	.LVL8:
+ 164              	.LFB133:
+  27:Src/i3_i2c_ext.c **** 
+  28:Src/i3_i2c_ext.c **** void I3_I2C_Ext_Write(uint8_t addr, uint8_t* buff, size_t size) {
+ 165              		.loc 1 28 65 is_stmt 1 view -0
+ 166              		.cfi_startproc
+ 167              		@ args = 0, pretend = 0, frame = 0
+ 168              		@ frame_needed = 0, uses_anonymous_args = 0
+ 169              		.loc 1 28 65 is_stmt 0 view .LVU27
+ 170 0000 00B5     		push	{lr}
+ 171              	.LCFI2:
+ 172              		.cfi_def_cfa_offset 4
+ 173              		.cfi_offset 14, -4
+ 174 0002 83B0     		sub	sp, sp, #12
+ 175              	.LCFI3:
+ 176              		.cfi_def_cfa_offset 16
+  29:Src/i3_i2c_ext.c **** //   i2c_busy = 1;
+  30:Src/i3_i2c_ext.c **** //   HAL_I2C_Master_Transmit_IT(&hi2c1, (uint16_t)addr<<1, buff, size);
+  31:Src/i3_i2c_ext.c ****   HAL_I2C_Master_Transmit(&hi2c2, (uint16_t)addr<<1, buff, size, 10);   // WTF???
+ 177              		.loc 1 31 3 is_stmt 1 view .LVU28
+ 178 0004 0A23     		movs	r3, #10
+ 179 0006 0093     		str	r3, [sp]
+ 180 0008 93B2     		uxth	r3, r2
+ 181 000a 0A46     		mov	r2, r1
+ 182              	.LVL9:
+ 183              		.loc 1 31 3 is_stmt 0 view .LVU29
+ 184 000c 4100     		lsls	r1, r0, #1
+ 185              	.LVL10:
+ 186              		.loc 1 31 3 view .LVU30
+ 187 000e 0348     		ldr	r0, .L15
+ 188              	.LVL11:
+ 189              		.loc 1 31 3 view .LVU31
+ 190 0010 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 191              	.LVL12:
+  32:Src/i3_i2c_ext.c **** }
+ 192              		.loc 1 32 1 view .LVU32
+ 193 0014 03B0     		add	sp, sp, #12
+ 194              	.LCFI4:
+ 195              		.cfi_def_cfa_offset 4
+ 196              		@ sp needed
+ 197 0016 5DF804FB 		ldr	pc, [sp], #4
+ 198              	.L16:
+ 199 001a 00BF     		.align	2
+ 200              	.L15:
+ 201 001c 00000000 		.word	hi2c2
+ 202              		.cfi_endproc
+ 203              	.LFE133:
+ARM GAS  /tmp/ccW8UXEA.s 			page 5
+
+
+ 205              		.section	.text.I2C_Ext_Mem_Read,"ax",%progbits
+ 206              		.align	1
+ 207              		.global	I2C_Ext_Mem_Read
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.fpu fpv4-sp-d16
+ 213              	I2C_Ext_Mem_Read:
+ 214              	.LVL13:
+ 215              	.LFB134:
+  33:Src/i3_i2c_ext.c **** 
+  34:Src/i3_i2c_ext.c **** void I2C_Ext_Mem_Read(uint8_t addr, uint16_t reg, uint8_t reg_size, uint8_t* buff, size_t size) {
+ 216              		.loc 1 34 97 is_stmt 1 view -0
+ 217              		.cfi_startproc
+ 218              		@ args = 4, pretend = 0, frame = 0
+ 219              		@ frame_needed = 0, uses_anonymous_args = 0
+ 220              		.loc 1 34 97 is_stmt 0 view .LVU34
+ 221 0000 30B5     		push	{r4, r5, lr}
+ 222              	.LCFI5:
+ 223              		.cfi_def_cfa_offset 12
+ 224              		.cfi_offset 4, -12
+ 225              		.cfi_offset 5, -8
+ 226              		.cfi_offset 14, -4
+ 227 0002 83B0     		sub	sp, sp, #12
+ 228              	.LCFI6:
+ 229              		.cfi_def_cfa_offset 24
+  35:Src/i3_i2c_ext.c ****   i2c_busy = 1;
+ 230              		.loc 1 35 3 is_stmt 1 view .LVU35
+ 231              		.loc 1 35 12 is_stmt 0 view .LVU36
+ 232 0004 0B4C     		ldr	r4, .L20
+ 233 0006 0125     		movs	r5, #1
+ 234 0008 2570     		strb	r5, [r4]
+  36:Src/i3_i2c_ext.c ****   HAL_I2C_Mem_Read_IT(&hi2c2, (uint16_t) addr<<1, reg, reg_size, buff, size);
+ 235              		.loc 1 36 3 is_stmt 1 view .LVU37
+ 236 000a BDF81840 		ldrh	r4, [sp, #24]
+ 237 000e 0194     		str	r4, [sp, #4]
+ 238 0010 0093     		str	r3, [sp]
+ 239 0012 1346     		mov	r3, r2
+ 240              	.LVL14:
+ 241              		.loc 1 36 3 is_stmt 0 view .LVU38
+ 242 0014 0A46     		mov	r2, r1
+ 243              	.LVL15:
+ 244              		.loc 1 36 3 view .LVU39
+ 245 0016 00FA05F1 		lsl	r1, r0, r5
+ 246              	.LVL16:
+ 247              		.loc 1 36 3 view .LVU40
+ 248 001a 0748     		ldr	r0, .L20+4
+ 249              	.LVL17:
+ 250              		.loc 1 36 3 view .LVU41
+ 251 001c FFF7FEFF 		bl	HAL_I2C_Mem_Read_IT
+ 252              	.LVL18:
+  37:Src/i3_i2c_ext.c ****   while (! i2c_received);
+ 253              		.loc 1 37 3 is_stmt 1 view .LVU42
+ 254              	.L18:
+ 255              		.loc 1 37 25 discriminator 1 view .LVU43
+ 256              		.loc 1 37 9 discriminator 1 view .LVU44
+ 257              		.loc 1 37 10 is_stmt 0 discriminator 1 view .LVU45
+ARM GAS  /tmp/ccW8UXEA.s 			page 6
+
+
+ 258 0020 064B     		ldr	r3, .L20+8
+ 259 0022 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 260              		.loc 1 37 9 discriminator 1 view .LVU46
+ 261 0024 002B     		cmp	r3, #0
+ 262 0026 FBD0     		beq	.L18
+  38:Src/i3_i2c_ext.c ****   i2c_received = 0;
+ 263              		.loc 1 38 3 is_stmt 1 view .LVU47
+ 264              		.loc 1 38 16 is_stmt 0 view .LVU48
+ 265 0028 044B     		ldr	r3, .L20+8
+ 266 002a 0022     		movs	r2, #0
+ 267 002c 1A70     		strb	r2, [r3]
+  39:Src/i3_i2c_ext.c **** }
+ 268              		.loc 1 39 1 view .LVU49
+ 269 002e 03B0     		add	sp, sp, #12
+ 270              	.LCFI7:
+ 271              		.cfi_def_cfa_offset 12
+ 272              		@ sp needed
+ 273 0030 30BD     		pop	{r4, r5, pc}
+ 274              	.LVL19:
+ 275              	.L21:
+ 276              		.loc 1 39 1 view .LVU50
+ 277 0032 00BF     		.align	2
+ 278              	.L20:
+ 279 0034 00000000 		.word	.LANCHOR0
+ 280 0038 00000000 		.word	hi2c2
+ 281 003c 00000000 		.word	.LANCHOR1
+ 282              		.cfi_endproc
+ 283              	.LFE134:
+ 285              		.section	.text.I2C_Ext_Mem_Write,"ax",%progbits
+ 286              		.align	1
+ 287              		.global	I2C_Ext_Mem_Write
+ 288              		.syntax unified
+ 289              		.thumb
+ 290              		.thumb_func
+ 291              		.fpu fpv4-sp-d16
+ 293              	I2C_Ext_Mem_Write:
+ 294              	.LVL20:
+ 295              	.LFB135:
+  40:Src/i3_i2c_ext.c **** 
+  41:Src/i3_i2c_ext.c **** void I2C_Ext_Mem_Write(uint8_t addr, uint16_t reg, uint8_t reg_size, uint8_t* buff, size_t size) { 
+ 296              		.loc 1 41 98 is_stmt 1 view -0
+ 297              		.cfi_startproc
+ 298              		@ args = 4, pretend = 0, frame = 0
+ 299              		@ frame_needed = 0, uses_anonymous_args = 0
+ 300              		.loc 1 41 98 is_stmt 0 view .LVU52
+ 301 0000 10B5     		push	{r4, lr}
+ 302              	.LCFI8:
+ 303              		.cfi_def_cfa_offset 8
+ 304              		.cfi_offset 4, -8
+ 305              		.cfi_offset 14, -4
+ 306 0002 84B0     		sub	sp, sp, #16
+ 307              	.LCFI9:
+ 308              		.cfi_def_cfa_offset 24
+  42:Src/i3_i2c_ext.c ****     HAL_I2C_Mem_Write(&hi2c2, (uint16_t) addr<<1, reg, reg_size, buff, size, 10);
+ 309              		.loc 1 42 5 is_stmt 1 view .LVU53
+ 310 0004 0A24     		movs	r4, #10
+ 311 0006 0294     		str	r4, [sp, #8]
+ARM GAS  /tmp/ccW8UXEA.s 			page 7
+
+
+ 312 0008 BDF81840 		ldrh	r4, [sp, #24]
+ 313 000c 0194     		str	r4, [sp, #4]
+ 314 000e 0093     		str	r3, [sp]
+ 315 0010 1346     		mov	r3, r2
+ 316              	.LVL21:
+ 317              		.loc 1 42 5 is_stmt 0 view .LVU54
+ 318 0012 0A46     		mov	r2, r1
+ 319              	.LVL22:
+ 320              		.loc 1 42 5 view .LVU55
+ 321 0014 4100     		lsls	r1, r0, #1
+ 322              	.LVL23:
+ 323              		.loc 1 42 5 view .LVU56
+ 324 0016 0248     		ldr	r0, .L24
+ 325              	.LVL24:
+ 326              		.loc 1 42 5 view .LVU57
+ 327 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 328              	.LVL25:
+  43:Src/i3_i2c_ext.c **** }
+ 329              		.loc 1 43 1 view .LVU58
+ 330 001c 04B0     		add	sp, sp, #16
+ 331              	.LCFI10:
+ 332              		.cfi_def_cfa_offset 8
+ 333              		@ sp needed
+ 334 001e 10BD     		pop	{r4, pc}
+ 335              	.LVL26:
+ 336              	.L25:
+ 337              		.loc 1 43 1 view .LVU59
+ 338              		.align	2
+ 339              	.L24:
+ 340 0020 00000000 		.word	hi2c2
+ 341              		.cfi_endproc
+ 342              	.LFE135:
+ 344              		.section	.text.HAL_I2C_MasterTxCpltCallback,"ax",%progbits
+ 345              		.align	1
+ 346              		.global	HAL_I2C_MasterTxCpltCallback
+ 347              		.syntax unified
+ 348              		.thumb
+ 349              		.thumb_func
+ 350              		.fpu fpv4-sp-d16
+ 352              	HAL_I2C_MasterTxCpltCallback:
+ 353              	.LVL27:
+ 354              	.LFB136:
+  44:Src/i3_i2c_ext.c **** 
+  45:Src/i3_i2c_ext.c **** 
+  46:Src/i3_i2c_ext.c **** void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef* hi2c) {
+ 355              		.loc 1 46 60 is_stmt 1 view -0
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 0, uses_anonymous_args = 0
+ 359              		@ link register save eliminated.
+  47:Src/i3_i2c_ext.c ****   i2c_busy = 0;
+ 360              		.loc 1 47 3 view .LVU61
+ 361              		.loc 1 47 12 is_stmt 0 view .LVU62
+ 362 0000 014B     		ldr	r3, .L27
+ 363 0002 0022     		movs	r2, #0
+ 364 0004 1A70     		strb	r2, [r3]
+  48:Src/i3_i2c_ext.c **** }
+ARM GAS  /tmp/ccW8UXEA.s 			page 8
+
+
+ 365              		.loc 1 48 1 view .LVU63
+ 366 0006 7047     		bx	lr
+ 367              	.L28:
+ 368              		.align	2
+ 369              	.L27:
+ 370 0008 00000000 		.word	.LANCHOR0
+ 371              		.cfi_endproc
+ 372              	.LFE136:
+ 374              		.section	.text.HAL_I2C_MasterRxCpltCallback,"ax",%progbits
+ 375              		.align	1
+ 376              		.global	HAL_I2C_MasterRxCpltCallback
+ 377              		.syntax unified
+ 378              		.thumb
+ 379              		.thumb_func
+ 380              		.fpu fpv4-sp-d16
+ 382              	HAL_I2C_MasterRxCpltCallback:
+ 383              	.LVL28:
+ 384              	.LFB137:
+  49:Src/i3_i2c_ext.c **** 
+  50:Src/i3_i2c_ext.c **** void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef* hi2c) {
+ 385              		.loc 1 50 60 is_stmt 1 view -0
+ 386              		.cfi_startproc
+ 387              		@ args = 0, pretend = 0, frame = 0
+ 388              		@ frame_needed = 0, uses_anonymous_args = 0
+ 389              		@ link register save eliminated.
+  51:Src/i3_i2c_ext.c ****   i2c_busy = 0;
+ 390              		.loc 1 51 3 view .LVU65
+ 391              		.loc 1 51 12 is_stmt 0 view .LVU66
+ 392 0000 034B     		ldr	r3, .L30
+ 393 0002 0022     		movs	r2, #0
+ 394 0004 1A70     		strb	r2, [r3]
+  52:Src/i3_i2c_ext.c ****   i2c_received = 1;
+ 395              		.loc 1 52 3 is_stmt 1 view .LVU67
+ 396              		.loc 1 52 16 is_stmt 0 view .LVU68
+ 397 0006 034B     		ldr	r3, .L30+4
+ 398 0008 0122     		movs	r2, #1
+ 399 000a 1A70     		strb	r2, [r3]
+  53:Src/i3_i2c_ext.c **** }
+ 400              		.loc 1 53 1 view .LVU69
+ 401 000c 7047     		bx	lr
+ 402              	.L31:
+ 403 000e 00BF     		.align	2
+ 404              	.L30:
+ 405 0010 00000000 		.word	.LANCHOR0
+ 406 0014 00000000 		.word	.LANCHOR1
+ 407              		.cfi_endproc
+ 408              	.LFE137:
+ 410              		.section	.text.HAL_I2C_MemTxCpltCallback,"ax",%progbits
+ 411              		.align	1
+ 412              		.global	HAL_I2C_MemTxCpltCallback
+ 413              		.syntax unified
+ 414              		.thumb
+ 415              		.thumb_func
+ 416              		.fpu fpv4-sp-d16
+ 418              	HAL_I2C_MemTxCpltCallback:
+ 419              	.LVL29:
+ 420              	.LFB138:
+ARM GAS  /tmp/ccW8UXEA.s 			page 9
+
+
+  54:Src/i3_i2c_ext.c **** 
+  55:Src/i3_i2c_ext.c **** void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef* hi2c) {
+ 421              		.loc 1 55 57 is_stmt 1 view -0
+ 422              		.cfi_startproc
+ 423              		@ args = 0, pretend = 0, frame = 0
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425              		@ link register save eliminated.
+  56:Src/i3_i2c_ext.c ****   i2c_busy = 0;
+ 426              		.loc 1 56 3 view .LVU71
+ 427              		.loc 1 56 12 is_stmt 0 view .LVU72
+ 428 0000 014B     		ldr	r3, .L33
+ 429 0002 0022     		movs	r2, #0
+ 430 0004 1A70     		strb	r2, [r3]
+  57:Src/i3_i2c_ext.c **** }
+ 431              		.loc 1 57 1 view .LVU73
+ 432 0006 7047     		bx	lr
+ 433              	.L34:
+ 434              		.align	2
+ 435              	.L33:
+ 436 0008 00000000 		.word	.LANCHOR0
+ 437              		.cfi_endproc
+ 438              	.LFE138:
+ 440              		.section	.text.HAL_I2C_MemRxCpltCallback,"ax",%progbits
+ 441              		.align	1
+ 442              		.global	HAL_I2C_MemRxCpltCallback
+ 443              		.syntax unified
+ 444              		.thumb
+ 445              		.thumb_func
+ 446              		.fpu fpv4-sp-d16
+ 448              	HAL_I2C_MemRxCpltCallback:
+ 449              	.LVL30:
+ 450              	.LFB139:
+  58:Src/i3_i2c_ext.c **** 
+  59:Src/i3_i2c_ext.c **** void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef* hi2c) {
+ 451              		.loc 1 59 57 is_stmt 1 view -0
+ 452              		.cfi_startproc
+ 453              		@ args = 0, pretend = 0, frame = 0
+ 454              		@ frame_needed = 0, uses_anonymous_args = 0
+ 455              		@ link register save eliminated.
+  60:Src/i3_i2c_ext.c ****   i2c_busy = 0;
+ 456              		.loc 1 60 3 view .LVU75
+ 457              		.loc 1 60 12 is_stmt 0 view .LVU76
+ 458 0000 034B     		ldr	r3, .L36
+ 459 0002 0022     		movs	r2, #0
+ 460 0004 1A70     		strb	r2, [r3]
+  61:Src/i3_i2c_ext.c ****   i2c_received = 1;
+ 461              		.loc 1 61 3 is_stmt 1 view .LVU77
+ 462              		.loc 1 61 16 is_stmt 0 view .LVU78
+ 463 0006 034B     		ldr	r3, .L36+4
+ 464 0008 0122     		movs	r2, #1
+ 465 000a 1A70     		strb	r2, [r3]
+  62:Src/i3_i2c_ext.c **** }
+ 466              		.loc 1 62 1 view .LVU79
+ 467 000c 7047     		bx	lr
+ 468              	.L37:
+ 469 000e 00BF     		.align	2
+ 470              	.L36:
+ARM GAS  /tmp/ccW8UXEA.s 			page 10
+
+
+ 471 0010 00000000 		.word	.LANCHOR0
+ 472 0014 00000000 		.word	.LANCHOR1
+ 473              		.cfi_endproc
+ 474              	.LFE139:
+ 476              		.section	.text.HAL_I2C_ErrorCallback,"ax",%progbits
+ 477              		.align	1
+ 478              		.global	HAL_I2C_ErrorCallback
+ 479              		.syntax unified
+ 480              		.thumb
+ 481              		.thumb_func
+ 482              		.fpu fpv4-sp-d16
+ 484              	HAL_I2C_ErrorCallback:
+ 485              	.LVL31:
+ 486              	.LFB140:
+  63:Src/i3_i2c_ext.c **** 
+  64:Src/i3_i2c_ext.c **** void HAL_I2C_ErrorCallback(I2C_HandleTypeDef* hi2c) {
+ 487              		.loc 1 64 53 is_stmt 1 view -0
+ 488              		.cfi_startproc
+ 489              		@ args = 0, pretend = 0, frame = 0
+ 490              		@ frame_needed = 0, uses_anonymous_args = 0
+ 491              		.loc 1 64 53 is_stmt 0 view .LVU81
+ 492 0000 08B5     		push	{r3, lr}
+ 493              	.LCFI11:
+ 494              		.cfi_def_cfa_offset 8
+ 495              		.cfi_offset 3, -8
+ 496              		.cfi_offset 14, -4
+  65:Src/i3_i2c_ext.c ****   Error_Handler();
+ 497              		.loc 1 65 3 is_stmt 1 view .LVU82
+ 498 0002 FFF7FEFF 		bl	Error_Handler
+ 499              	.LVL32:
+  66:Src/i3_i2c_ext.c **** }
+ 500              		.loc 1 66 1 is_stmt 0 view .LVU83
+ 501 0006 08BD     		pop	{r3, pc}
+ 502              		.cfi_endproc
+ 503              	.LFE140:
+ 505              		.section	.bss.i2c_busy,"aw",%nobits
+ 506              		.set	.LANCHOR0,. + 0
+ 509              	i2c_busy:
+ 510 0000 00       		.space	1
+ 511              		.section	.bss.i2c_received,"aw",%nobits
+ 512              		.set	.LANCHOR1,. + 0
+ 515              	i2c_received:
+ 516 0000 00       		.space	1
+ 517              		.text
+ 518              	.Letext0:
+ 519              		.file 2 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 520              		.file 3 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 521              		.file 4 "/home/nazar/.gcc-arm-none-eabi/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 522              		.file 5 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/lock.h"
+ 523              		.file 6 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/_types.h"
+ 524              		.file 7 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/sys/reent.h"
+ 525              		.file 8 "/home/nazar/.gcc-arm-none-eabi/arm-none-eabi/include/stdlib.h"
+ 526              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
+ 527              		.file 10 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h"
+ 528              		.file 11 "Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xe.h"
+ 529              		.file 12 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h"
+ 530              		.file 13 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h"
+ARM GAS  /tmp/ccW8UXEA.s 			page 11
+
+
+ 531              		.file 14 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h"
+ 532              		.file 15 "Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h"
+ARM GAS  /tmp/ccW8UXEA.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 i3_i2c_ext.c
+     /tmp/ccW8UXEA.s:18     .text.I3_I2C_Ext_Check:0000000000000000 $t
+     /tmp/ccW8UXEA.s:26     .text.I3_I2C_Ext_Check:0000000000000000 I3_I2C_Ext_Check
+     /tmp/ccW8UXEA.s:57     .text.I3_I2C_Ext_Check:0000000000000018 $d
+     /tmp/ccW8UXEA.s:62     .text.I3_I2C_Ext_Busy:0000000000000000 $t
+     /tmp/ccW8UXEA.s:69     .text.I3_I2C_Ext_Busy:0000000000000000 I3_I2C_Ext_Busy
+     /tmp/ccW8UXEA.s:85     .text.I3_I2C_Ext_Busy:0000000000000008 $d
+     /tmp/ccW8UXEA.s:90     .text.I3_I2C_Ext_Read:0000000000000000 $t
+     /tmp/ccW8UXEA.s:97     .text.I3_I2C_Ext_Read:0000000000000000 I3_I2C_Ext_Read
+     /tmp/ccW8UXEA.s:148    .text.I3_I2C_Ext_Read:0000000000000028 $d
+     /tmp/ccW8UXEA.s:155    .text.I3_I2C_Ext_Write:0000000000000000 $t
+     /tmp/ccW8UXEA.s:162    .text.I3_I2C_Ext_Write:0000000000000000 I3_I2C_Ext_Write
+     /tmp/ccW8UXEA.s:201    .text.I3_I2C_Ext_Write:000000000000001c $d
+     /tmp/ccW8UXEA.s:206    .text.I2C_Ext_Mem_Read:0000000000000000 $t
+     /tmp/ccW8UXEA.s:213    .text.I2C_Ext_Mem_Read:0000000000000000 I2C_Ext_Mem_Read
+     /tmp/ccW8UXEA.s:279    .text.I2C_Ext_Mem_Read:0000000000000034 $d
+     /tmp/ccW8UXEA.s:286    .text.I2C_Ext_Mem_Write:0000000000000000 $t
+     /tmp/ccW8UXEA.s:293    .text.I2C_Ext_Mem_Write:0000000000000000 I2C_Ext_Mem_Write
+     /tmp/ccW8UXEA.s:340    .text.I2C_Ext_Mem_Write:0000000000000020 $d
+     /tmp/ccW8UXEA.s:345    .text.HAL_I2C_MasterTxCpltCallback:0000000000000000 $t
+     /tmp/ccW8UXEA.s:352    .text.HAL_I2C_MasterTxCpltCallback:0000000000000000 HAL_I2C_MasterTxCpltCallback
+     /tmp/ccW8UXEA.s:370    .text.HAL_I2C_MasterTxCpltCallback:0000000000000008 $d
+     /tmp/ccW8UXEA.s:375    .text.HAL_I2C_MasterRxCpltCallback:0000000000000000 $t
+     /tmp/ccW8UXEA.s:382    .text.HAL_I2C_MasterRxCpltCallback:0000000000000000 HAL_I2C_MasterRxCpltCallback
+     /tmp/ccW8UXEA.s:405    .text.HAL_I2C_MasterRxCpltCallback:0000000000000010 $d
+     /tmp/ccW8UXEA.s:411    .text.HAL_I2C_MemTxCpltCallback:0000000000000000 $t
+     /tmp/ccW8UXEA.s:418    .text.HAL_I2C_MemTxCpltCallback:0000000000000000 HAL_I2C_MemTxCpltCallback
+     /tmp/ccW8UXEA.s:436    .text.HAL_I2C_MemTxCpltCallback:0000000000000008 $d
+     /tmp/ccW8UXEA.s:441    .text.HAL_I2C_MemRxCpltCallback:0000000000000000 $t
+     /tmp/ccW8UXEA.s:448    .text.HAL_I2C_MemRxCpltCallback:0000000000000000 HAL_I2C_MemRxCpltCallback
+     /tmp/ccW8UXEA.s:471    .text.HAL_I2C_MemRxCpltCallback:0000000000000010 $d
+     /tmp/ccW8UXEA.s:477    .text.HAL_I2C_ErrorCallback:0000000000000000 $t
+     /tmp/ccW8UXEA.s:484    .text.HAL_I2C_ErrorCallback:0000000000000000 HAL_I2C_ErrorCallback
+     /tmp/ccW8UXEA.s:509    .bss.i2c_busy:0000000000000000 i2c_busy
+     /tmp/ccW8UXEA.s:510    .bss.i2c_busy:0000000000000000 $d
+     /tmp/ccW8UXEA.s:515    .bss.i2c_received:0000000000000000 i2c_received
+     /tmp/ccW8UXEA.s:516    .bss.i2c_received:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_IsDeviceReady
+hi2c2
+HAL_I2C_Master_Receive_IT
+HAL_I2C_Master_Transmit
+HAL_I2C_Mem_Read_IT
+HAL_I2C_Mem_Write
+Error_Handler

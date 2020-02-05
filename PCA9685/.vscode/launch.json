@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "cwd": "${workspaceRoot}",
+            "executable": "build/PCA9685.elf",
+            "name": "Debug (OpenOCD)",
+            "device": "STM32F303RE",
+            "configFiles": [
+                "interface/stlink-v2-1.cfg",
+                "target/stm32f3x.cfg"
+            ]
+        }
+    ]
+}
